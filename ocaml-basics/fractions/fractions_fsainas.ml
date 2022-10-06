@@ -35,8 +35,8 @@ let compare_posfrac (a,b) (c,d) = match (a,b,c,d) with
 ;;
 
 let compare_frac (a,b) (c,d) = match (a,b,c,d) with
-          (a,b,c,d) when is_posfrac (a,b) && not is_posfrac (c,d) -> 1
-        | (a,b,c,d) when not is_posfrac (a,b) && is_posfrac (c,d) -> (-1)
+          (a,b,c,d) when is_posfrac (a,b) && not (is_posfrac (c,d)) -> 1
+        | (a,b,c,d) when not (is_posfrac (a,b)) && is_posfrac (c,d) -> (-1)
         | (a,b,c,d) when (a*d) = (c*b) -> 0 (* same rational number *)
         | (a,b,c,d) when (a*d) > (c*b) -> 1 (* the first is grater *)
         | (a,b,c,d) when (a*d) < (c*b) -> (-1) (* the second is grater *)
@@ -45,3 +45,8 @@ let compare_frac (a,b) (c,d) = match (a,b,c,d) with
 assert (compare_posfrac (1,2) (2,4) == 0);;
 assert (compare_posfrac (1,2) (1,3) == 1);;
 assert (compare_posfrac (1,2) (2,3) == -1);;
+
+assert (compare_frac (-1,2) (-2,4) == 0);;
+assert (compare_frac (-1,2) (-2,-4) == -1);;
+assert (compare_frac (-1,2) (-1,3) == -1);;
+assert (compare_frac (1,2) (-2,3) == 1);;
