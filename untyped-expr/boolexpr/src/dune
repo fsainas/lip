@@ -1,5 +1,5 @@
 (library
- (name interp))
+ (name boolexprLib))
 
 (menhir
  (modules parser))

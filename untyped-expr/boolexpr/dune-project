@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github bitbart/lip))
 
 (authors "Massimo Bartoletti")
 
@@ -13,12 +13,12 @@
 
 (license LICENSE)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/bitbart/lip/tree/main/untyped-expr/boolexpr)
 
 (package
  (name boolexpr)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "Interpreter of untyped boolean expressions")
+ (description "The interpreter implements small-step and big-step semantics of untyped boolean expressions")
  (depends ocaml dune)
  (tags
   (topics "to describe" your project)))

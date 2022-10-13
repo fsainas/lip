@@ -1,4 +1,5 @@
-type boolExp = True
-             | False
-             | If of boolExp * boolExp * boolExp
+type boolExpr =
+    True
+  | False
+  | If of boolExpr * boolExpr * boolExpr
 ;;

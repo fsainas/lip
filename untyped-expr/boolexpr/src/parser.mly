@@ -11,7 +11,7 @@ open Ast
 %token ELSE
 %token EOF
 
-%start <Ast.boolExp> prog
+%start <boolExpr> prog
 
 %%
 

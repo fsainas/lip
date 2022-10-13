@@ -37,8 +37,13 @@ You can work on these exercises using the online Ocaml playground: [Try Ocaml](h
 
 ## Untyped arithmetic expressions
 
-1. [Installing OCaml & project setup](untyped-expr/)
+To work at this project you must have a local installation of OCaml. 
+Look [here](install-ocaml) for minimal instructions.
+
 1. [A minimal language of boolean expressions](untyped-expr/boolexpr)
+1. [Boolean expressions with not, and, or](untyped-expr/andboolexpr)
+1. [Boolean expressions with propositional variables](untyped-expr/varboolexpr)
+1. Simple integer arithmetics
 
 ## References
 
