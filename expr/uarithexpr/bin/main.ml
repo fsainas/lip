@@ -1,5 +1,5 @@
-open AndboolexprLib.Main
-
+open UarithexprLib.Main
+  
 (* read file, and output it to a string *)
 
 let read_file filename =
@@ -15,24 +15,22 @@ let read_line () =
   with End_of_file -> None
 ;;
 
-(* print a bool *)
+(* print a result *)
 
-let print_bool b =
-  print_string (if b then "true" else "false"); print_newline()
-;;
+let print_val e = print_string (string_of_val e); print_newline();;
 
 (* print a trace *)
 
 let rec print_trace = function
     [] -> print_newline()
-  | [x] -> print_endline (string_of_boolexpr x)
-  | x::l -> print_endline (string_of_boolexpr x); print_string " -> " ; print_trace l
+  | [x] -> print_endline (string_of_expr x)
+  | x::l -> print_endline (string_of_expr x); print_string " -> " ; print_trace l
 ;;
 
 match Array.length(Sys.argv) with
 (* eval / read input from stdin *) 
   1 -> (match read_line() with
-    Some s when s<>"" -> s |> parse |> eval |> print_bool
+    Some s when s<>"" -> s |> parse |> eval |> print_val
   | _ -> print_newline())
 (* trace / read input from stdin *)      
 | 2 when Sys.argv.(1) = "trace" -> (match read_line() with
@@ -41,10 +39,10 @@ match Array.length(Sys.argv) with
 (* eval / read input from file *) 
 | 2 -> (match read_file Sys.argv.(1) with
       "" -> print_newline()
-    | s -> s |> parse |> eval |> print_bool)
-(* trace / read input from file *)      
+    | s -> s |> parse |> eval |> print_val)
+(* trace / read input from stdin *)      
 | 3 when Sys.argv.(1) = "trace" -> (match read_file Sys.argv.(2) with
       "" -> print_newline()
     | s -> s |> parse |> trace |> print_trace)
 (* wrong usage *)      
-| _ -> failwith "Usage: dune exec andboolexpr [trace] [file]"
+| _ -> failwith "Usage: dune exec arithexpr [trace] [file]"
