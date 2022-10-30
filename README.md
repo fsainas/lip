@@ -48,7 +48,6 @@ Look [here](install-ocaml) for minimal instructions.
 1. [Typed arithmetic expressions with static type checking](expr/sarithexpr)
 1. [Untyped arithmetic expressions](expr/uarithexpr)
 1. [Arithmetic expressions with let bindings and dynamic type checking](expr/letarithexpr)
-1. [Boolean expressions with propositional variables](expr/varboolexpr)
 
 ## References
 
