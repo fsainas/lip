@@ -16,7 +16,6 @@ let parse (s : string) : boolExpr =
   let ast = Parser.prog Lexer.read lexbuf in
   ast
 
-
 (******************************************************************************)
 (*                            Small-step semantics                            *)
 (******************************************************************************)
@@ -51,7 +50,6 @@ let rec trace e = try
 let string_of_val = function
     Some b -> string_of_bool b
   | None -> "None"
-
 
 (******************************************************************************)
 (*                              Big-step semantics                            *)

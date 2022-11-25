@@ -31,7 +31,6 @@ open Ast
  and the result of the parsing will be a value
  of type Ast.boolExpr *)
 %start <boolExpr> prog
-%start <boolExpr> prog
 
 %%
 
