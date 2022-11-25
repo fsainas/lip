@@ -39,7 +39,7 @@ let rec trace1 = function
   | Or(e1,e2) -> let e1' = trace1 e1 in Or(e1',e2)    
   | _ -> raise NoRuleApplies
 
-(* trace1 : boolExpr -> boolExpr list *)
+(* trace : boolExpr -> boolExpr list *)
 (* performs all steps of small-step semantics 
    and returns the list of them *)
 let rec trace e = try
