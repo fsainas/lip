@@ -92,6 +92,7 @@ let boolexpr_to_expr = function
     Bool(e) -> e 
   | Nat(_) -> failwith "a boolean was expected"
 ;;
+
 (* natexpr_to_expr : exprval -> expr *)
 let natexpr_to_expr = function 
     Nat(e) -> e 
@@ -103,12 +104,17 @@ let natexpr_to_expr = function
 let rec eval = function
     True -> Bool(true)
   | False -> Bool(false)
-  | If(e0,e1,e2) -> Bool(if boolexpr_to_expr (eval e0) then boolexpr_to_expr (eval e1) else boolexpr_to_expr (eval e2))
+  | If(e0,e1,e2) -> Bool(
+      if boolexpr_to_expr (eval e0) 
+      then boolexpr_to_expr (eval e1) 
+      else boolexpr_to_expr (eval e2))
   | Not(e) -> Bool(not (boolexpr_to_expr (eval e)))
   | And(e0,e1) -> Bool(boolexpr_to_expr (eval e0) && boolexpr_to_expr (eval e1))
   | Or(e0,e1) -> Bool(boolexpr_to_expr (eval e0) || boolexpr_to_expr (eval e1))
   | Zero -> Nat(0)
   | Succ(e) -> Nat(natexpr_to_expr (eval e) + 1)
-  | Pred(e) -> if (natexpr_to_expr (eval e)) = 0 then failwith "the predecessor of 0 does not exist" else Nat(natexpr_to_expr (eval e) - 1)
+  | Pred(e) -> if (natexpr_to_expr (eval e)) = 0 
+      then failwith "The predecessor of 0 does not exist" 
+      else Nat(natexpr_to_expr (eval e) - 1)
   | IsZero(e) -> Bool(natexpr_to_expr (eval e) = 0)
 ;;
