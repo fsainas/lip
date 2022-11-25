@@ -1,3 +1,4 @@
+open LetarithexprLib.Ast
 open LetarithexprLib.Main
 
 (* wrapping results for testing *)
@@ -67,6 +68,25 @@ let%test _ =
 (**********************************************************************
  Test small-step semantics
  **********************************************************************)
+
+(* last element of a list *)
+let rec last = function
+    [] -> failwith "last on empty list"
+  | [x] -> x
+  | _::l -> last l
+
+(* convert nat values to int *)
+let rec int_of_nat = function
+    Zero -> 0
+  | Succ n -> 1 + int_of_nat n
+  | _ -> failwith "int_of_nat on non-nat"
+
+(* reduce expression with small-step semantics and convert into value option *)
+let eval_smallstep e = match last (trace e) with
+    True -> Some (Bool true)
+  | False -> Some (Bool false)
+  | e when is_nv e -> Some (Nat (int_of_nat e))
+  | _ -> None
 
 let%test _ =
   print_newline();
