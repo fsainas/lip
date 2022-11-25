@@ -14,6 +14,10 @@ let parse (s : string) : boolExpr =
   let ast = Parser.prog Lexer.read lexbuf in
   ast
 
+(******************************************************************************)
+(*                            Small-step semantics                            *)
+(******************************************************************************)
+
 exception NoRuleApplies
   
 (* trace1 : boolExpr -> boolExpr *)
@@ -33,6 +37,10 @@ let rec trace e = try
     in e::(trace e')
   with NoRuleApplies -> [e]
 ;;
+
+(******************************************************************************)
+(*                              Big-step semantics                            *)
+(******************************************************************************)
 
 (* eval : boolExpr -> bool *)
 (* performs big-step semantics *)
