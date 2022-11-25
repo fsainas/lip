@@ -2,6 +2,7 @@
 open Ast
 %}
 
+(* Declaration of lexical tokens *)
 %token TRUE
 %token FALSE
 %token NOT
@@ -24,10 +25,14 @@ open Ast
 %left NOT
 %nonassoc SUCC, PRED, ISZERO
 
+(* parsing starts with a rule named prog,
+ and the result of the parsing will be a value
+ of type Ast.boolExpr *)
 %start <expr> prog
 
 %%
 
+(* The rules section defines the productions of the grammar *)
 prog:
   | e = expr; EOF { e }
 ;
