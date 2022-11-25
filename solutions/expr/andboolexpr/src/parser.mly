@@ -2,6 +2,7 @@
 open Ast
 %}
 
+(* Declaration of lexical tokens *)
 %token TRUE
 %token FALSE
 %token NOT
@@ -26,10 +27,15 @@ open Ast
 (* NOT is right associative has the highest priority *)
 %right NOT
 
+(* parsing starts with a rule named prog,
+ and the result of the parsing will be a value
+ of type Ast.boolExpr *)
+%start <boolExpr> prog
 %start <boolExpr> prog
 
 %%
 
+(* The rules section defines the productions of the grammar *)
 prog:
   | e = expr; EOF { e }
 ;

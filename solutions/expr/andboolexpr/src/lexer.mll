@@ -1,3 +1,4 @@
+(* Opening the parser module in the header *)
 {
 open Parser
 }
@@ -6,7 +7,7 @@ let white = [' ' '\t']+
 
 rule read =
   parse
-  | white { read lexbuf }  
+  | white { read lexbuf }  (* when the lexer encounters whitespaces it should just skip it *)
   | "true" { TRUE }
   | "false" { FALSE }
   | "(" { LPAREN }
