@@ -128,14 +128,14 @@ let rec trace e = try
 (*                              Big-step semantics                            *)
 (******************************************************************************)
 
-(* boolexpr_to_expr : exprval -> expr *)
-let boolexpr_to_expr = function 
+(* boolexpr_to_bool : exprval -> bool *)
+let boolexpr_to_bool = function 
     Bool(e) -> e 
   | Nat(_) -> failwith "a boolean was expected"
 ;;
 
-(* natexpr_to_expr : exprval -> expr *)
-let natexpr_to_expr = function 
+(* natexpr_to_int : exprval -> int *)
+let natexpr_to_int = function 
     Nat(e) -> e 
   | Bool(_) -> failwith "a natural number was expected"
 ;;
@@ -146,16 +146,16 @@ let rec eval = function
     True -> Bool(true)
   | False -> Bool(false)
   | If(e0,e1,e2) -> Bool(
-      if boolexpr_to_expr (eval e0) 
-      then boolexpr_to_expr (eval e1) 
-      else boolexpr_to_expr (eval e2))
-  | Not(e) -> Bool(not (boolexpr_to_expr (eval e)))
-  | And(e0,e1) -> Bool(boolexpr_to_expr (eval e0) && boolexpr_to_expr (eval e1))
-  | Or(e0,e1) -> Bool(boolexpr_to_expr (eval e0) || boolexpr_to_expr (eval e1))
+      if boolexpr_to_bool (eval e0) 
+      then boolexpr_to_bool (eval e1) 
+      else boolexpr_to_bool (eval e2))
+  | Not(e) -> Bool(not (boolexpr_to_bool (eval e)))
+  | And(e0,e1) -> Bool(boolexpr_to_bool (eval e0) && boolexpr_to_bool (eval e1))
+  | Or(e0,e1) -> Bool(boolexpr_to_bool (eval e0) || boolexpr_to_bool (eval e1))
   | Zero -> Nat(0)
-  | Succ(e) -> Nat(natexpr_to_expr (eval e) + 1)
-  | Pred(e) -> if (natexpr_to_expr (eval e)) = 0 
+  | Succ(e) -> Nat(natexpr_to_int (eval e) + 1)
+  | Pred(e) -> if (natexpr_to_int (eval e)) = 0 
       then failwith "the predecessor of 0 does not exist" 
-      else Nat(natexpr_to_expr (eval e) - 1)
-  | IsZero(e) -> Bool(natexpr_to_expr (eval e) = 0)
+      else Nat(natexpr_to_int (eval e) - 1)
+  | IsZero(e) -> Bool(natexpr_to_int (eval e) = 0)
 ;;

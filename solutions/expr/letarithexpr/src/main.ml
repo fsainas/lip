@@ -112,14 +112,14 @@ let rec print_trace = function
 (*                              Big-step semantics                            *)
 (******************************************************************************)
 
-(* boolexpr_to_expr : exprval -> expr *)
-let boolexpr_to_expr = function 
+(* boolexpr_to_bool : exprval -> bool *)
+let boolexpr_to_bool = function 
     Bool(e) -> e 
   | _ -> failwith "a boolean was expected"
 ;;
 
-(* natexpr_to_expr : exprval -> expr *)
-let natexpr_to_expr = function 
+(* natexpr_to_int : exprval -> int *)
+let natexpr_to_int = function 
     Nat(e) -> e 
   | _ -> failwith "a natural number was expected"
 ;;
@@ -132,19 +132,19 @@ let eval expr =
         True -> Bool true
       | False -> Bool false
       | If(e0,e1,e2) -> Bool(
-          if boolexpr_to_expr (eval_rec e0 rho) 
-          then boolexpr_to_expr (eval_rec e1 rho) 
-          else boolexpr_to_expr (eval_rec e2 rho) )
-      | Not(e0) -> Bool(not (boolexpr_to_expr (eval_rec e0 rho)))
-      | And(e0,e1) -> Bool(boolexpr_to_expr (eval_rec e0 rho) && boolexpr_to_expr (eval_rec e1 rho))
-      | Or(e0,e1) -> Bool(boolexpr_to_expr (eval_rec e0 rho) || boolexpr_to_expr (eval_rec e1 rho))
+          if boolexpr_to_bool (eval_rec e0 rho) 
+          then boolexpr_to_bool (eval_rec e1 rho) 
+          else boolexpr_to_bool (eval_rec e2 rho) )
+      | Not(e0) -> Bool(not (boolexpr_to_bool (eval_rec e0 rho)))
+      | And(e0,e1) -> Bool(boolexpr_to_bool (eval_rec e0 rho) && boolexpr_to_bool (eval_rec e1 rho))
+      | Or(e0,e1) -> Bool(boolexpr_to_bool (eval_rec e0 rho) || boolexpr_to_bool (eval_rec e1 rho))
       | Zero -> Nat(0)
-      | Succ(e0) -> Nat(natexpr_to_expr (eval_rec e0 rho) + 1)
+      | Succ(e0) -> Nat(natexpr_to_int (eval_rec e0 rho) + 1)
       | Pred(e0) -> 
-          if (natexpr_to_expr (eval_rec e0 rho)) = 0 
+          if (natexpr_to_int (eval_rec e0 rho)) = 0 
           then failwith "the predecessor of 0 does not exist" 
-          else Nat(natexpr_to_expr (eval_rec e0 rho) - 1)
-      | IsZero(e0) -> Bool(natexpr_to_expr (eval_rec e0 rho) = 0)
+          else Nat(natexpr_to_int (eval_rec e0 rho) - 1)
+      | IsZero(e0) -> Bool(natexpr_to_int (eval_rec e0 rho) = 0)
       | Var(x) -> rho x
       | Let(x,e0,e1) -> 
               (* Here the function rho is defined as an anonymous function.
