@@ -124,28 +124,27 @@ let natexpr_to_expr = function
   | _ -> failwith "a natural number was expected"
 ;;
 
-
 (* eval : expr -> exprval *)
 (* performs big-step semantics *)
 let eval expr = 
 
-    let rec eval1 e rho = match e with
+    let rec eval_rec e rho = match e with
         True -> Bool true
       | False -> Bool false
       | If(e0,e1,e2) -> Bool(
-          if boolexpr_to_expr (eval1 e0 rho) 
-          then boolexpr_to_expr (eval1 e1 rho) 
-          else boolexpr_to_expr (eval1 e2 rho) )
-      | Not(e0) -> Bool(not (boolexpr_to_expr (eval1 e0 rho)))
-      | And(e0,e1) -> Bool(boolexpr_to_expr (eval1 e0 rho) && boolexpr_to_expr (eval1 e1 rho))
-      | Or(e0,e1) -> Bool(boolexpr_to_expr (eval1 e0 rho) || boolexpr_to_expr (eval1 e1 rho))
+          if boolexpr_to_expr (eval_rec e0 rho) 
+          then boolexpr_to_expr (eval_rec e1 rho) 
+          else boolexpr_to_expr (eval_rec e2 rho) )
+      | Not(e0) -> Bool(not (boolexpr_to_expr (eval_rec e0 rho)))
+      | And(e0,e1) -> Bool(boolexpr_to_expr (eval_rec e0 rho) && boolexpr_to_expr (eval_rec e1 rho))
+      | Or(e0,e1) -> Bool(boolexpr_to_expr (eval_rec e0 rho) || boolexpr_to_expr (eval_rec e1 rho))
       | Zero -> Nat(0)
-      | Succ(e0) -> Nat(natexpr_to_expr (eval1 e0 rho) + 1)
+      | Succ(e0) -> Nat(natexpr_to_expr (eval_rec e0 rho) + 1)
       | Pred(e0) -> 
-          if (natexpr_to_expr (eval1 e0 rho)) = 0 
+          if (natexpr_to_expr (eval_rec e0 rho)) = 0 
           then failwith "the predecessor of 0 does not exist" 
-          else Nat(natexpr_to_expr (eval1 e0 rho) - 1)
-      | IsZero(e0) -> Bool(natexpr_to_expr (eval1 e0 rho) = 0)
+          else Nat(natexpr_to_expr (eval_rec e0 rho) - 1)
+      | IsZero(e0) -> Bool(natexpr_to_expr (eval_rec e0 rho) = 0)
       | Var(x) -> rho x
       | Let(x,e0,e1) -> 
               (* Here the function rho is defined as an anonymous function.
@@ -153,8 +152,8 @@ let eval expr =
                  otherwise it tries to resolve the name of x' with the former 
                  environment function, eventually raising UnboundValue when
                  the first one is called. *)
-              eval1 e1 (fun x' -> if x' = x then eval1 e0 rho else eval1 (Var x') rho)
+              eval_rec e1 (fun x' -> if x' = x then eval_rec e0 rho else eval_rec (Var x') rho)
 
   (* At this stage the environment is empty *)
-  in eval1 expr (fun _ -> raise UnboundValue)
+  in eval_rec expr (fun _ -> raise UnboundValue)
 ;;
